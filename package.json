@@ -1,0 +1,23 @@
+{
+  "name": "cloudflare-ddns",
+  "version": "1.0.0",
+  "description": "Cloudflare DDNS using NodeJS",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/maomaorun/cloudflare-ddns.git"
+  },
+  "keywords": [
+    "ddns",
+    "cloudflare"
+  ],
+  "author": "maomao.run (maomao.run@outlook.com)",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/maomaorun/cloudflare-ddns/issues"
+  },
+  "homepage": "https://github.com/maomaorun/cloudflare-ddns#readme"
+}
