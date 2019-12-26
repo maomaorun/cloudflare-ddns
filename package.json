@@ -19,5 +19,8 @@
   "bugs": {
     "url": "https://github.com/maomaorun/cloudflare-ddns/issues"
   },
-  "homepage": "https://github.com/maomaorun/cloudflare-ddns#readme"
+  "homepage": "https://github.com/maomaorun/cloudflare-ddns#readme",
+  "dependencies": {
+    "log4js": "^6.1.0"
+  }
 }
