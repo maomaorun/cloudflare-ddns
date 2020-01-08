@@ -1,6 +1,7 @@
 const http = require('http');
 const https = require('https');
 const querystring = require('querystring');
+const log4js = require('log4js');
 const config = require('./config');
 
 class HttpClient {
@@ -74,21 +75,25 @@ class HttpClient {
 }
 
 (async() => {
+    log4js.configure(config.log4js);
+    const logger = log4js.getLogger('main');
+
     const client = new HttpClient();
     let currIPV4 = '';
     try {
         currIPV4 = await client.get(config.IPV4_QUERY_URL, {}, {});
-        console.log('IPV4:', currIPV4);
+        logger.info(`IPV4:${currIPV4}`);
     } catch (error) {
-        console.log(error);
+        logger.error(error);
     }
 
     let currIPV6 = '';
     try {
         currIPV6 = await client.get(config.IPV6_QUERY_URL, {}, {});
         console.log('IPV6:', currIPV6);
+        logger.info(`IPV6:${currIPV6}`);
     } catch (error) {
-        console.log(error);
+        logger.error(error);
     }
 
     try {
@@ -110,7 +115,7 @@ class HttpClient {
                         currIP = currIPV6;
                     }
                     if (currIP !== '' && prevIP !== currIP) {
-                        console.log(`[${item.name}] prevIP:${prevIP} currIP:${currIP} will be updated!`);
+                        logger.info(`[${item.name}] prevIP:${prevIP} currIP:${currIP} will be updated!`);
                         const bodyMap = {
                             'type': item.type,
                             'name': item.name,
@@ -120,13 +125,13 @@ class HttpClient {
                         try {
                             const result2 = JSON.parse(await client.put(config.cloudflare.UPDATE_RECORDS_URL(item.id), headers, {}, bodyMap));
                             if (result2.success) {
-                                console.log(`[${item.name}] prevIP:${prevIP} currIP:${currIP} has been updated!`);
+                                logger.info(`[${item.name}] prevIP:${prevIP} currIP:${currIP} has been updated!`);
                             } else {
-                                console.log(`[${item.name}] prevIP:${prevIP} currIP:${currIP} failed to update!`);
-                                console.log(result2);
+                                logger.error(`[${item.name}] prevIP:${prevIP} currIP:${currIP} failed to update!`);
+                                logger.error(result2);
                             }
                         } catch (error) {
-                            console.log(error);
+                            logger.error(error);
                         }
                     }
                 }
@@ -134,6 +139,6 @@ class HttpClient {
         });
         await Promise.all(tasks);
     } catch (error) {
-        console.log(error);
+        logger.error(error);
     }
 })();

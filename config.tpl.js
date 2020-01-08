@@ -20,5 +20,30 @@ module.exports = {
         UPDATE_RECORDS_URL : function (recordId) {
             return `https://api.cloudflare.com/client/v4/zones/${this.ZONE_ID}/dns_records/${recordId}`
         }
+    },
+    log4js : {
+        appenders: {
+            stdout: {
+                type: 'console'
+            },
+            main: {
+                type: 'dateFile',
+                filename: '/var/log/cloudflare-ddns/main.log',
+                pattern: '.yyyy-MM-dd',
+                keepFileExt: true
+            }
+        },
+        categories: {
+            main: {
+                appenders: ['stdout', 'main'],
+                level: 'debug',
+                enableCallStack: true
+            },
+            default: {
+                appenders: ['stdout'],
+                level: 'debug',
+                enableCallStack: true
+            }
+        }
     }
 }
